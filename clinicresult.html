@@ -1,0 +1,1177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Find Clinics & Doctors | TinyCare</title>
+    <meta
+      name="description"
+      content="Explore child healthcare clinics, doctor profiles and same-day appointment slots with TinyCare."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #197b79;
+        --dark: #125f60;
+        --mint: #e8f5f1;
+        --ink: #183b3b;
+        --muted: #6c8585;
+        --border: #e4ecea;
+        --bg: #f8fbfa;
+        --shadow: 0 12px 40px rgba(24, 59, 59, 0.07);
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.6;
+      }
+      h1,
+      h2,
+      h3,
+      .brand {
+        font-family: Manrope, sans-serif;
+        letter-spacing: -0.5px;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      .container {
+        width: min(1160px, 92%);
+        margin: auto;
+      }
+      .topbar {
+        background: #153d3d;
+        color: #eaf7f3;
+        padding: 8px 0;
+        font-size: 12px;
+      }
+      .navbar {
+        height: 76px;
+        display: flex;
+        align-items: center;
+        background: #fff;
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 20;
+      }
+      .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 23px;
+        font-weight: 800;
+      }
+      .brand-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        background: var(--mint);
+        color: var(--primary);
+        display: grid;
+        place-items: center;
+      }
+      .brand small {
+        display: block;
+        font: 500 10px "DM Sans";
+        color: var(--muted);
+        letter-spacing: 0.2px;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .nav-links a:hover {
+        color: var(--primary);
+      }
+      .btn {
+        border: 1px solid transparent;
+        border-radius: 11px;
+        padding: 12px 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .primary {
+        background: var(--primary);
+        color: #fff;
+      }
+      .outline {
+        border-color: var(--border);
+        background: #fff;
+      }
+      .menu {
+        display: none;
+        border: 1px solid var(--border);
+        background: white;
+        border-radius: 10px;
+        padding: 10px;
+      }
+      .page-head {
+        padding: 48px 0 24px;
+      }
+      .eyebrow,
+      .tag {
+        color: var(--primary);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.3px;
+        text-transform: uppercase;
+      }
+      .page-head h1 {
+        font-size: clamp(30px, 4vw, 45px);
+        line-height: 1.15;
+        margin: 9px 0 12px;
+      }
+      .page-head p {
+        color: var(--muted);
+        max-width: 690px;
+        font-size: 14px;
+      }
+      .filters {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: var(--shadow);
+        display: grid;
+        grid-template-columns: 1.2fr 1fr 1fr auto;
+        gap: 12px;
+        align-items: end;
+        margin-bottom: 24px;
+      }
+      .field label {
+        display: block;
+        font-size: 11px;
+        font-weight: 800;
+        margin-bottom: 7px;
+      }
+      .field input,
+      .field select {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        background: #fbfdfc;
+        color: var(--ink);
+        min-width: 0;
+      }
+      .summary {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        align-items: center;
+        margin: 22px 0 15px;
+        flex-wrap: wrap;
+      }
+      .summary h2 {
+        font-size: 22px;
+      }
+      .summary p {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 60px;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(24, 59, 59, 0.035);
+      }
+      .card-top {
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        gap: 17px;
+        padding: 17px;
+      }
+      .photo {
+        width: 160px;
+        height: 172px;
+        object-fit: cover;
+        border-radius: 13px;
+        background: var(--mint);
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 8px;
+        border-radius: 7px;
+        background: var(--mint);
+        color: var(--primary);
+        font-size: 10px;
+        font-weight: 800;
+      }
+      .card h3 {
+        font-size: 17px;
+        margin: 9px 0 3px;
+      }
+      .doctor {
+        font-size: 12px;
+        color: var(--primary);
+        font-weight: 700;
+      }
+      .desc {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 8px;
+      }
+      .meta {
+        display: grid;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 11px;
+        margin-top: 11px;
+      }
+      .meta i {
+        color: var(--primary);
+        width: 15px;
+      }
+      .card-bottom {
+        padding: 0 17px 17px;
+      }
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 0 0 13px;
+      }
+      .slot-title {
+        font-size: 11px;
+        font-weight: 800;
+        margin-bottom: 8px;
+      }
+      .slots {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+      }
+      .slot {
+        border: 1px solid #dcece7;
+        background: #f5faf8;
+        color: var(--dark);
+        border-radius: 8px;
+        padding: 7px 9px;
+        font-size: 10px;
+        font-weight: 800;
+      }
+      .slot:disabled {
+        opacity: 0.42;
+        cursor: not-allowed;
+        text-decoration: line-through;
+      }
+      .slot:not(:disabled):hover {
+        background: var(--primary);
+        color: #fff;
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 14px;
+      }
+      .actions .btn {
+        flex: 1;
+      }
+      .text-link {
+        color: var(--primary);
+        font-size: 11px;
+        font-weight: 800;
+      }
+      .empty {
+        display: none;
+        background: #fff;
+        border: 1px dashed var(--border);
+        padding: 30px;
+        border-radius: 15px;
+        color: var(--muted);
+        text-align: center;
+        margin-bottom: 60px;
+      }
+      footer {
+        background: #fff;
+        border-top: 1px solid var(--border);
+        padding: 24px 0;
+        color: var(--muted);
+        font-size: 11px;
+      }
+      .footer-inner {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(16, 43, 43, 0.6);
+        z-index: 50;
+        padding: 18px;
+        overflow: auto;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal.active {
+        display: flex;
+      }
+      .modal-card {
+        background: white;
+        width: min(500px, 100%);
+        border-radius: 20px;
+        padding: 24px;
+        position: relative;
+        margin: auto;
+      }
+      .close {
+        position: absolute;
+        right: 16px;
+        top: 16px;
+        border: 0;
+        background: var(--mint);
+        color: var(--primary);
+        border-radius: 9px;
+        width: 35px;
+        height: 35px;
+      }
+      .modal h2 {
+        font-size: 23px;
+        margin: 7px 35px 5px 0;
+      }
+      .modal p {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 15px;
+      }
+      .form {
+        display: grid;
+        gap: 12px;
+      }
+      .form .btn {
+        width: 100%;
+        margin-top: 4px;
+      }
+      .steps {
+        display: flex;
+        gap: 6px;
+        margin: 15px 0 18px;
+      }
+      .step {
+        flex: 1;
+        border-radius: 5px;
+        background: #edf3f1;
+        height: 5px;
+      }
+      .step.on {
+        background: var(--primary);
+      }
+      .help {
+        font-size: 10px !important;
+        margin: 8px 0 0 !important;
+      }
+      .message {
+        display: none;
+        border-radius: 10px;
+        background: var(--mint);
+        color: var(--dark);
+        padding: 12px;
+        font-size: 12px;
+        margin-top: 12px;
+      }
+      .message.show {
+        display: block;
+      }
+      .toast {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translate(-50%, 100px);
+        background: #173f3d;
+        color: #fff;
+        border-radius: 10px;
+        padding: 12px 18px;
+        font-size: 12px;
+        z-index: 80;
+        transition: 0.25s;
+      }
+      .toast.show {
+        transform: translate(-50%, 0);
+      }
+      @media (max-width: 850px) {
+        .nav-links {
+          gap: 12px;
+        }
+        .filters {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .cards {
+          grid-template-columns: 1fr;
+        }
+        .card-top {
+          grid-template-columns: 140px 1fr;
+        }
+        .photo {
+          width: 140px;
+        }
+      }
+      @media (max-width: 620px) {
+        .navbar {
+          height: 68px;
+        }
+        .menu {
+          display: block;
+        }
+        .nav-links {
+          display: none;
+          position: absolute;
+          top: 68px;
+          left: 0;
+          right: 0;
+          background: #fff;
+          padding: 18px 4%;
+          border-bottom: 1px solid var(--border);
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .nav-links.open {
+          display: flex;
+        }
+        .page-head {
+          padding-top: 32px;
+        }
+        .filters {
+          grid-template-columns: 1fr;
+        }
+        .card-top {
+          grid-template-columns: 1fr;
+        }
+        .photo {
+          width: 100%;
+          height: 190px;
+        }
+        .actions .btn {
+          flex: 1 1 45%;
+        }
+        .summary h2 {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="container">
+        <i class="fa-solid fa-heart" style="margin-right: 6px"></i> Thoughtful
+        healthcare for little ones · TinyCare demo
+      </div>
+    </div>
+    <header class="navbar">
+      <div class="container nav-inner">
+        <a class="brand" href="index.html"
+          ><span class="brand-icon"
+            ><i class="fa-solid fa-heart-pulse"></i></span
+          ><span>TinyCare<small>CARE THAT GROWS WITH THEM</small></span></a
+        >
+        <nav class="nav-links" id="navLinks">
+          <a href="index.html">Home</a
+          ><a href="clinic-results.html">Find Clinics</a
+          ><a href="clinic-results.html#doctor-results">Find Doctors</a
+          ><a href="index.html#how-it-works">How It Works</a
+          ><a href="index.html#for-clinics">For Clinics</a
+          ><button class="btn primary" id="navBook">
+            <i class="fa-regular fa-calendar-check"></i> Book Appointment
+          </button>
+        </nav>
+        <button class="menu" id="menuToggle" aria-label="Open navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </header>
+    <main class="container">
+      <section class="page-head">
+        <div class="eyebrow">PERSONALISED CARE DISCOVERY</div>
+        <h1>Find the right doctor for your child.</h1>
+        <p>
+          Review sample clinic and doctor profiles, compare locations, and
+          choose an available same-day time. This prototype uses sample
+          listings, not live clinic data.
+        </p>
+      </section>
+      <form class="filters" id="filters">
+        <div class="field">
+          <label for="location">Area or PIN code</label
+          ><input id="location" placeholder="e.g. Baner, Pune" />
+        </div>
+        <div class="field">
+          <label for="specialty">Specialty</label
+          ><select id="specialty">
+            <option value="all">All child healthcare</option>
+            <option value="pediatric">Pediatrician</option>
+            <option value="dental">Children's dentist</option>
+            <option value="vaccination">Vaccination clinic</option>
+            <option value="diagnostic">Diagnostic lab</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="visitDate">Appointment date</label
+          ><input type="date" id="visitDate" required />
+        </div>
+        <button class="btn primary" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i> Update results
+        </button>
+      </form>
+      <div class="summary" id="doctor-results">
+        <div>
+          <h2>Clinics and doctors</h2>
+          <p id="resultCount">Showing sample profiles</p>
+        </div>
+        <p>
+          <i class="fa-solid fa-shield-heart"></i> Demo listings · Confirm
+          details with the clinic
+        </p>
+      </div>
+      <div class="cards" id="cards">
+        <article
+          class="card"
+          data-type="pediatric"
+          data-clinic="Little Steps Children's Clinic"
+          data-slots="09:00 AM|10:00 AM|11:00 AM"
+          data-doctor="Dr. Aarya Deshmukh"
+        >
+          <div class="card-top">
+            <img
+              class="photo"
+              src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=650&q=80"
+              alt="Doctor at a clinic"
+            />
+            <div>
+              <span class="badge"
+                ><i class="fa-solid fa-check-circle"></i> Sample profile</span
+              >
+              <h3>Little Steps Children's Clinic</h3>
+              <div class="doctor">Dr. Aarya Deshmukh · Pediatrician</div>
+              <p class="desc">
+                Child growth, fever consultations and routine wellness visits.
+              </p>
+              <div class="meta">
+                <span
+                  ><i class="fa-solid fa-location-dot"></i> Sample address,
+                  Baner, Pune</span
+                ><span
+                  ><i class="fa-regular fa-clock"></i> Clinic hours need
+                  confirmation</span
+                ><span
+                  ><i class="fa-solid fa-indian-rupee-sign"></i> Sample
+                  consultation fee: ₹500</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="card-bottom">
+            <div class="divider"></div>
+            <div class="slot-title">Same-day demo slots</div>
+            <div class="slots"></div>
+            <div class="actions">
+              <a
+                class="btn outline directions"
+                href="https://www.google.com/maps/search/?api=1&query=Baner%2C+Pune"
+                target="_blank"
+                rel="noopener"
+                ><i class="fa-solid fa-diamond-turn-right"></i> Directions</a
+              ><button class="btn outline call" data-phone="" type="button">
+                <i class="fa-solid fa-phone"></i> Call clinic</button
+              ><button class="btn primary book" type="button">
+                View profile & book
+              </button>
+            </div>
+          </div>
+        </article>
+        <article
+          class="card"
+          data-type="dental"
+          data-clinic="Little Smiles Dental Clinic"
+          data-slots="10:00 AM|12:00 PM|04:00 PM"
+          data-doctor="Dr. Rohan Kulkarni"
+        >
+          <div class="card-top">
+            <img
+              class="photo"
+              src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=650&q=80"
+              alt="Dental clinic"
+            />
+            <div>
+              <span class="badge"
+                ><i class="fa-solid fa-check-circle"></i> Sample profile</span
+              >
+              <h3>Little Smiles Dental Clinic</h3>
+              <div class="doctor">Dr. Rohan Kulkarni · Children's Dentist</div>
+              <p class="desc">
+                Preventive dental check-ups and child-friendly oral health
+                guidance.
+              </p>
+              <div class="meta">
+                <span
+                  ><i class="fa-solid fa-location-dot"></i> Sample address,
+                  Aundh, Pune</span
+                ><span
+                  ><i class="fa-regular fa-clock"></i> Clinic hours need
+                  confirmation</span
+                ><span
+                  ><i class="fa-solid fa-indian-rupee-sign"></i> Sample
+                  consultation fee: ₹600</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="card-bottom">
+            <div class="divider"></div>
+            <div class="slot-title">Same-day demo slots</div>
+            <div class="slots"></div>
+            <div class="actions">
+              <a
+                class="btn outline directions"
+                href="https://www.google.com/maps/search/?api=1&query=Aundh%2C+Pune"
+                target="_blank"
+                rel="noopener"
+                ><i class="fa-solid fa-diamond-turn-right"></i> Directions</a
+              ><button class="btn outline call" data-phone="" type="button">
+                <i class="fa-solid fa-phone"></i> Call clinic</button
+              ><button class="btn primary book" type="button">
+                View profile & book
+              </button>
+            </div>
+          </div>
+        </article>
+        <article
+          class="card"
+          data-type="vaccination"
+          data-clinic="Growing Together Child Care"
+          data-slots="09:30 AM|11:30 AM|05:00 PM"
+          data-doctor="Dr. Neha Patil"
+        >
+          <div class="card-top">
+            <img
+              class="photo"
+              src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=650&q=80"
+              alt="Child healthcare professional"
+            />
+            <div>
+              <span class="badge"
+                ><i class="fa-solid fa-check-circle"></i> Sample profile</span
+              >
+              <h3>Growing Together Child Care</h3>
+              <div class="doctor">Dr. Neha Patil · Child Wellness</div>
+              <p class="desc">
+                Child wellness consultations and vaccination visit planning.
+              </p>
+              <div class="meta">
+                <span
+                  ><i class="fa-solid fa-location-dot"></i> Sample address,
+                  Wakad, Pune</span
+                ><span
+                  ><i class="fa-regular fa-clock"></i> Clinic hours need
+                  confirmation</span
+                ><span
+                  ><i class="fa-solid fa-indian-rupee-sign"></i> Sample
+                  consultation fee: ₹450</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="card-bottom">
+            <div class="divider"></div>
+            <div class="slot-title">Same-day demo slots</div>
+            <div class="slots"></div>
+            <div class="actions">
+              <a
+                class="btn outline directions"
+                href="https://www.google.com/maps/search/?api=1&query=Wakad%2C+Pune"
+                target="_blank"
+                rel="noopener"
+                ><i class="fa-solid fa-diamond-turn-right"></i> Directions</a
+              ><button class="btn outline call" data-phone="" type="button">
+                <i class="fa-solid fa-phone"></i> Call clinic</button
+              ><button class="btn primary book" type="button">
+                View profile & book
+              </button>
+            </div>
+          </div>
+        </article>
+        <article
+          class="card"
+          data-type="diagnostic"
+          data-clinic="Little Steps Child Diagnostics"
+          data-slots="10:30 AM|01:00 PM|03:30 PM"
+          data-doctor="Care team"
+        >
+          <div class="card-top">
+            <img
+              class="photo"
+              src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=650&q=80"
+              alt="Diagnostic healthcare facility"
+            />
+            <div>
+              <span class="badge"
+                ><i class="fa-solid fa-circle-info"></i> Sample profile</span
+              >
+              <h3>Little Steps Child Diagnostics</h3>
+              <div class="doctor">Pediatric Diagnostic Services</div>
+              <p class="desc">
+                Sample diagnostic services and family-friendly sample collection
+                information.
+              </p>
+              <div class="meta">
+                <span
+                  ><i class="fa-solid fa-location-dot"></i> Sample address,
+                  Pashan, Pune</span
+                ><span
+                  ><i class="fa-regular fa-clock"></i> Confirm test
+                  availability</span
+                ><span
+                  ><i class="fa-solid fa-indian-rupee-sign"></i> Fees depend on
+                  test</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="card-bottom">
+            <div class="divider"></div>
+            <div class="slot-title">Same-day demo slots</div>
+            <div class="slots"></div>
+            <div class="actions">
+              <a
+                class="btn outline directions"
+                href="https://www.google.com/maps/search/?api=1&query=Pashan%2C+Pune"
+                target="_blank"
+                rel="noopener"
+                ><i class="fa-solid fa-diamond-turn-right"></i> Directions</a
+              ><button class="btn outline call" data-phone="" type="button">
+                <i class="fa-solid fa-phone"></i> Call clinic</button
+              ><button class="btn primary book" type="button">
+                View profile & book
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="empty" id="empty">
+        <i
+          class="fa-solid fa-magnifying-glass"
+          style="font-size: 24px; margin-bottom: 10px"
+        ></i>
+        <h3>No matching sample profiles</h3>
+        <p>
+          Try another specialty or area. Location search is a prototype and does
+          not query a real clinic directory.
+        </p>
+      </div>
+    </main>
+    <footer>
+      <div class="container footer-inner">
+        <span>© 2026 TinyCare · Clinic discovery prototype</span
+        ><span
+          >Sample profiles and slots only · No real appointment is
+          confirmed</span
+        >
+      </div>
+    </footer>
+    <div
+      class="modal"
+      id="bookingModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+      <div class="modal-card">
+        <button class="close" id="close" aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="tag">SAME-DAY APPOINTMENT REQUEST</div>
+        <h2 id="modalTitle">Book a clinic visit</h2>
+        <p id="modalDesc">
+          Review the selected clinic and continue through the booking steps.
+        </p>
+        <div class="steps">
+          <span class="step on"></span><span class="step"></span
+          ><span class="step"></span>
+        </div>
+        <form class="form" id="bookingForm">
+          <div class="field">
+            <label for="clinicName">Clinic</label
+            ><input id="clinicName" readonly />
+          </div>
+          <div class="field">
+            <label for="doctorName">Doctor / service</label
+            ><input id="doctorName" readonly />
+          </div>
+          <div class="field">
+            <label for="appointmentDate">Date (today only)</label
+            ><input id="appointmentDate" type="date" required />
+          </div>
+          <div class="field">
+            <label for="appointmentTime"
+              >Available 15–20 minute appointment slots</label
+            ><select id="appointmentTime" required></select>
+            <p class="help" id="slotMessage">
+              Choose a time shown as available.
+            </p>
+          </div>
+          <div class="field">
+            <label for="parentName">Parent / guardian name</label
+            ><input
+              id="parentName"
+              required
+              maxlength="100"
+              placeholder="Enter parent or guardian name"
+            />
+          </div>
+          <div class="field">
+            <label for="childAge">Child's age group</label
+            ><select id="childAge" required>
+              <option value="">Choose age group</option>
+              <option>Below 1 year</option>
+              <option>1–5 years</option>
+              <option>6–12 years</option>
+              <option>13–18 years</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="mobile">Mobile number</label
+            ><input
+              id="mobile"
+              type="tel"
+              pattern="[6-9][0-9]{9}"
+              maxlength="10"
+              required
+              placeholder="10-digit Indian mobile number"
+            />
+          </div>
+          <div class="field">
+            <label for="reason">Reason for visit</label
+            ><select id="reason" required>
+              <option value="">Choose visit type</option>
+              <option>General consultation</option>
+              <option>Follow-up visit</option>
+              <option>Vaccination</option>
+              <option>Dental consultation</option>
+              <option>Diagnostic service</option>
+              <option>Other consultation</option>
+            </select>
+          </div>
+          <button class="btn primary" id="continueBtn" type="submit">
+            Continue to demo OTP <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+        <div class="message" id="message" role="status"></div>
+        <p class="help">
+          Prototype only. Use fictional details. No SMS is sent and no real
+          booking is confirmed.
+        </p>
+      </div>
+    </div>
+    <div class="toast" id="toast" role="status"></div>
+    <script>
+      (() => {
+        const $ = (s, root = document) => root.querySelector(s);
+        const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+        const params = new URLSearchParams(location.search);
+        const today = () => {
+          const d = new Date();
+          return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+        };
+        const toMinutes = (t) => {
+          const m = t.match(/^(\d{1,2}):(\d{2})\s(AM|PM)$/);
+          if (!m) return -1;
+          let h = +m[1];
+          if (m[3] === "AM" && h === 12) h = 0;
+          if (m[3] === "PM" && h !== 12) h += 12;
+          return h * 60 + +m[2];
+        };
+        const modal = $("#bookingModal"),
+          form = $("#bookingForm"),
+          dateInput = $("#appointmentDate"),
+          timeSelect = $("#appointmentTime"),
+          message = $("#message"),
+          slotMessage = $("#slotMessage");
+        let activeCard = null,
+          step = 1,
+          chosenTime = "";
+        const getBooked = () => {
+          try {
+            return JSON.parse(
+              localStorage.getItem("tinycareBookedSlots") || "{}",
+            );
+          } catch {
+            return {};
+          }
+        };
+        const saveBooked = (data) =>
+          localStorage.setItem("tinycareBookedSlots", JSON.stringify(data));
+        function available(card) {
+          if (!card || dateInput.value !== today()) return [];
+          const now = new Date(),
+            mins = now.getHours() * 60 + now.getMinutes();
+          const booked = getBooked()[`${card.dataset.clinic}|${today()}`] || [];
+          return card.dataset.slots
+            .split("|")
+            .filter((t) => toMinutes(t) > mins + 15 && !booked.includes(t));
+        }
+        function refreshSlots() {
+          timeSelect.innerHTML = "";
+          const slots = available(activeCard);
+          if (!dateInput.value) {
+            timeSelect.add(new Option("Select today first", ""));
+            timeSelect.disabled = true;
+            slotMessage.textContent =
+              "Select today to see remaining demo slots.";
+            return;
+          }
+          if (dateInput.value !== today()) {
+            timeSelect.add(new Option("Only same-day booking is enabled", ""));
+            timeSelect.disabled = true;
+            slotMessage.textContent =
+              "Advance booking is not available in this prototype.";
+            return;
+          }
+          if (!slots.length) {
+            timeSelect.add(new Option("No upcoming slots available", ""));
+            timeSelect.disabled = true;
+            slotMessage.textContent =
+              "No upcoming demo slots remain for this clinic today.";
+            return;
+          }
+          timeSelect.disabled = false;
+          timeSelect.add(new Option("Choose a time", ""));
+          slots.forEach((t) => timeSelect.add(new Option(t, t)));
+          slotMessage.textContent =
+            "Slots shown are demo data and are stored only in this browser.";
+        }
+        function toast(txt) {
+          const t = $("#toast");
+          t.textContent = txt;
+          t.classList.add("show");
+          setTimeout(() => t.classList.remove("show"), 2600);
+        }
+        function renderSlots() {
+          $$(".card").forEach((card) => {
+            const holder = $(".slots", card);
+            holder.innerHTML = "";
+            const booked =
+              getBooked()[`${card.dataset.clinic}|${today()}`] || [];
+            const now = new Date(),
+              mins = now.getHours() * 60 + now.getMinutes();
+            const slots = card.dataset.slots.split("|");
+            slots.forEach((t) => {
+              const b = document.createElement("button");
+              b.type = "button";
+              b.className = "slot";
+              b.textContent = t;
+              const disabled = toMinutes(t) <= mins + 15 || booked.includes(t);
+              b.disabled = disabled;
+              b.title = disabled
+                ? booked.includes(t)
+                  ? "Already booked in this browser"
+                  : "Time has passed"
+                : "Choose this time";
+              b.addEventListener("click", () => openBooking(card, t));
+              holder.append(b);
+            });
+          });
+        }
+        function applyFilters() {
+          const specialty = $("#specialty").value,
+            loc = $("#location").value.trim().toLowerCase();
+          let count = 0;
+          $$(".card").forEach((card) => {
+            const okType =
+              specialty === "all" || card.dataset.type === specialty;
+            const text = (
+              card.textContent +
+              " " +
+              card.querySelector(".meta").textContent
+            ).toLowerCase();
+            const okLoc = !loc || text.includes(loc) || loc.includes("pune");
+            card.style.display = okType && okLoc ? "" : "none";
+            if (okType && okLoc) count++;
+          });
+          $("#empty").style.display = count ? "none" : "block";
+          $("#resultCount").textContent =
+            `Showing ${count} sample profile${count === 1 ? "" : "s"}${loc ? " matching your search" : ""}`;
+          renderSlots();
+        }
+        function openBooking(card, time = "") {
+          activeCard = card;
+          form.reset();
+          step = 1;
+          $$(".step").forEach((x, i) => x.classList.toggle("on", i === 0));
+          $("#clinicName").value = card.dataset.clinic;
+          $("#doctorName").value = card.dataset.doctor;
+          dateInput.min = today();
+          dateInput.max = today();
+          dateInput.value = today();
+          $("#modalDesc").textContent =
+            "Review clinic and doctor details, select an available time, then verify your mobile using the demo OTP.";
+          message.classList.remove("show");
+          message.textContent = "";
+          refreshSlots();
+          if (time && [...timeSelect.options].some((o) => o.value === time))
+            timeSelect.value = time;
+          modal.classList.add("active");
+          $("#parentName").focus();
+        }
+        function closeModal() {
+          modal.classList.remove("active");
+        }
+        $$(".book").forEach((b) =>
+          b.addEventListener("click", () => openBooking(b.closest(".card"))),
+        );
+        $$(".call").forEach((b) =>
+          b.addEventListener("click", () =>
+            toast(
+              "Clinic phone number is not configured for this sample listing.",
+            ),
+          ),
+        );
+        $("#navBook").addEventListener("click", () => {
+          const card =
+            $$(".card").find((c) => c.style.display !== "none") ||
+            $$(".card")[0];
+          openBooking(card);
+        });
+        $("#close").addEventListener("click", closeModal);
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) closeModal();
+        });
+        dateInput.addEventListener("change", refreshSlots);
+        $("#filters").addEventListener("submit", (e) => {
+          e.preventDefault();
+          applyFilters();
+          const p = new URLSearchParams({
+            location: $("#location").value,
+            specialty: $("#specialty").value,
+            date: $("#visitDate").value,
+          });
+          history.replaceState({}, "", `clinic-results.html?${p}`);
+        });
+        $("#menuToggle").addEventListener("click", () =>
+          $("#navLinks").classList.toggle("open"),
+        );
+        $("#location").value = params.get("location") || "Pune";
+        $("#specialty").value = params.get("specialty") || "all";
+        $("#visitDate").min = today();
+        $("#visitDate").max = today();
+        $("#visitDate").value = today();
+        if (params.get("date") && params.get("date") !== today())
+          $("#visitDate").value = today();
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          if (!form.reportValidity()) return;
+          if (dateInput.value !== today()) {
+            toast("Only same-day booking is available.");
+            return;
+          }
+          if (!available(activeCard).includes(timeSelect.value)) {
+            refreshSlots();
+            toast("That slot is no longer available. Choose another time.");
+            return;
+          }
+          if (step === 1) {
+            step = 2;
+            $$(".step").forEach((x, i) => x.classList.toggle("on", i < 2));
+            $("#modalTitle").textContent = "Verify mobile number";
+            $("#modalDesc").textContent =
+              `Demo OTP for ${$("#mobile").value}: 123456. No SMS will be sent.`;
+            message.innerHTML =
+              "Your demo OTP is <strong>123456</strong>. Enter it below to continue.";
+            message.classList.add("show");
+            const otp = document.createElement("div");
+            otp.className = "field";
+            otp.innerHTML =
+              '<label for="otp">Demo OTP</label><input id="otp" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" required placeholder="Enter 123456"><p class="help">For this demo only, use 123456.</p>';
+            form.insertBefore(otp, $("#continueBtn"));
+            $("#continueBtn").innerHTML =
+              'Verify OTP & confirm request <i class="fa-solid fa-check"></i>';
+            return;
+          }
+          const otp = $("#otp");
+          if (!otp || otp.value !== "123456") {
+            toast("Enter the demo OTP 123456.");
+            return;
+          }
+          const key = `${activeCard.dataset.clinic}|${today()}`,
+            booked = getBooked();
+          booked[key] = [...(booked[key] || []), timeSelect.value];
+          saveBooked(booked);
+          $$(".step").forEach((x, i) => x.classList.toggle("on", i < 3));
+          const details = {
+            clinic: activeCard.dataset.clinic,
+            doctor: activeCard.dataset.doctor,
+            date: dateInput.value,
+            time: timeSelect.value,
+            name: $("#parentName").value,
+            mobile: $("#mobile").value,
+          };
+          message.innerHTML = `<strong>Demo request prepared!</strong><br>Clinic: ${details.clinic}<br>Doctor: ${details.doctor}<br>Date: ${details.date}<br>Time: ${details.time}<br>Parent: ${details.name}<br><br>This is not a confirmed real appointment.`;
+          message.classList.add("show");
+          $("#modalTitle").textContent = "Request preview";
+          $("#modalDesc").textContent = "Your sample flow is complete.";
+          form.style.display = "none";
+          renderSlots();
+          setTimeout(() => {
+            form.style.display = "grid";
+            closeModal();
+            form.reset();
+            $("#modalTitle").textContent = "Book a clinic visit";
+            $("#continueBtn").innerHTML =
+              'Continue to demo OTP <i class="fa-solid fa-arrow-right"></i>';
+            const otpField = $("#otp")?.closest(".field");
+            if (otpField) otpField.remove();
+            message.classList.remove("show");
+          }, 7000);
+        });
+        applyFilters();
+      })();
+    </script>
+  </body>
+</html>
